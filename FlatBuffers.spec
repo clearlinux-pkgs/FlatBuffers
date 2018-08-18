@@ -4,7 +4,7 @@
 #
 Name     : FlatBuffers
 Version  : 1.9.0
-Release  : 1
+Release  : 2
 URL      : https://github.com/google/flatbuffers/archive/v1.9.0.tar.gz
 Source0  : https://github.com/google/flatbuffers/archive/v1.9.0.tar.gz
 Summary  : No detailed summary available
