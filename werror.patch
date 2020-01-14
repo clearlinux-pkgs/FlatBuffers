@@ -1,37 +1,56 @@
---- flatbuffers-1.9.0/CMakeLists.txt~	2018-04-05 22:11:52.000000000 +0000
-+++ flatbuffers-1.9.0/CMakeLists.txt	2018-08-18 22:34:35.649799826 +0000
-@@ -109,7 +109,7 @@
-   # is being configured externally
+diff -ru flatbuffers-1.11.0~/CMakeLists.txt flatbuffers-1.11.0/CMakeLists.txt
+--- flatbuffers-1.11.0~/CMakeLists.txt	2019-04-24 11:34:53.000000000 -0700
++++ flatbuffers-1.11.0/CMakeLists.txt	2020-01-14 15:15:43.368884804 -0800
+@@ -161,7 +161,7 @@
+   message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}.")
  elseif(APPLE)
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 -  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Werror -Wextra -Wno-unused-parameter")
 +  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -Wno-unused-parameter")
+   set(FLATBUFFERS_PRIVATE_CXX_FLAGS "-Wold-style-cast")
  elseif(CMAKE_COMPILER_IS_GNUCXX)
    if(CYGWIN)
-     set(CMAKE_CXX_FLAGS
-@@ -119,14 +119,14 @@
+@@ -172,15 +172,15 @@
        "${CMAKE_CXX_FLAGS} -std=c++0x")
    endif(CYGWIN)
    set(CMAKE_CXX_FLAGS
 -    "${CMAKE_CXX_FLAGS} -Wall -pedantic -Werror -Wextra -Werror=shadow")
-+    "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -Werror=shadow")
++    "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
+   set(FLATBUFFERS_PRIVATE_CXX_FLAGS "-Wold-style-cast")
    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.4)
      if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0)
        set(CMAKE_CXX_FLAGS
-         "${CMAKE_CXX_FLAGS} -faligned-new")
+-        "${CMAKE_CXX_FLAGS} -faligned-new -Werror=implicit-fallthrough=2")
++        "${CMAKE_CXX_FLAGS} -faligned-new")
      endif()
      set(CMAKE_CXX_FLAGS
 -      "${CMAKE_CXX_FLAGS} -Wunused-result -Werror=unused-result -Wunused-parameter -Werror=unused-parameter")
-+      "${CMAKE_CXX_FLAGS} -Wunused-result -Wunused-parameter -Werror=unused-parameter")
++      "${CMAKE_CXX_FLAGS} -Wunused-result -Wunused-parameter")
    endif()
  
    # Certain platforms such as ARM do not use signed chars by default
-@@ -136,7 +136,7 @@
+@@ -190,10 +190,10 @@
  
  elseif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
    set(CMAKE_CXX_FLAGS
 -      "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Werror -Wextra -Wno-unused-parameter")
 +      "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Wextra -Wno-unused-parameter")
-   if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-     set(CMAKE_CXX_FLAGS
-         "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+   set(FLATBUFFERS_PRIVATE_CXX_FLAGS "-Wold-style-cast")
+   if(NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.8)
+-    list(APPEND FLATBUFFERS_PRIVATE_CXX_FLAGS "-Wimplicit-fallthrough" "-Wextra-semi" "-Werror=unused-private-field") # enable warning
++    list(APPEND FLATBUFFERS_PRIVATE_CXX_FLAGS "-Wimplicit-fallthrough" "-Wextra-semi") # enable warning
+   endif()
+   if(FLATBUFFERS_LIBCXX_WITH_CLANG)
+     if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+diff -ru flatbuffers-1.11.0~/tests/fuzzer/CMakeLists.txt flatbuffers-1.11.0/tests/fuzzer/CMakeLists.txt
+--- flatbuffers-1.11.0~/tests/fuzzer/CMakeLists.txt	2019-04-24 11:34:53.000000000 -0700
++++ flatbuffers-1.11.0/tests/fuzzer/CMakeLists.txt	2020-01-14 15:14:51.615012627 -0800
+@@ -8,7 +8,7 @@
+ project(FlatBuffersFuzzerTests)
+ 
+ set(CMAKE_CXX_FLAGS
+-  "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -pedantic -Werror -Wextra -Wno-unused-parameter -fsigned-char")
++  "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -pedantic -Wextra -Wno-unused-parameter -fsigned-char")
+ 
+ set(CMAKE_CXX_FLAGS
+   "${CMAKE_CXX_FLAGS} -g -fsigned-char -fno-omit-frame-pointer")
